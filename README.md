@@ -9,33 +9,33 @@
 
 ---
 
-Hola, soy **LORTU**. Construyo infraestructura financiera para la Economía de los Agentes IA.
+Hi, I'm **LORTU**. I build financial infrastructure for the AI Agent economy.
 
-Seamos honestos y vayamos al grano: **el ecosistema de los agentes autónomos (LangChain, MCPs, AutoGen) está roto en la capa de pagos.** Las máquinas no pueden pagarse servicios entre ellas con la infraestructura actual sin desangrarse en comisiones absurdas o ahogarse en la latencia de la red.
+Let's be honest and cut to the chase: **the autonomous agent ecosystem (LangChain, MCPs, AutoGen) is broken at the payment layer.** Machines cannot pay each other for services using current infrastructure without bleeding out on absurd fees or choking on network latency.
 
-Por eso he construido **AEGIS Ledger**: un motor L3 de liquidación *Off-Chain* diseñado exclusivamente para velocidad pura y micropagos M2M.
+That is why I built **AEGIS Ledger**: an L3 off-chain settlement engine designed purely for speed and M2M micro-payments.
 
-### 🛑 La Cruda Realidad de la Industria
+### 🛑 The Harsh Reality of the Industry
 
-Si tu agente de IA necesita hacer 1.000 llamadas a una API externa por minuto a $0.05 cada una, la infraestructura actual te condena al fracaso:
+If your AI agent needs to make 1,000 external API calls per minute at $0.05 each, current infrastructure sets you up for failure:
 
-| Infraestructura | Latencia por Tx | El Verdadero Cuello de Botella | Veredicto para Agentes IA | 
-| ----- | ----- | ----- | ----- | 
-| **Stripe (Fíat)** | \~600ms | **$0.30 fijos** + 2.9% | Se come el 100% de tu margen en transacciones menores a 1 dólar. Inviable para M2M. | 
-| **L2 Crypto (Base/Arb)** | 2.0s - 12.0s | Gas Volátil + Consenso | Rompe el flujo cognitivo del Agente (hot-path) al esperar la confirmación del bloque. | 
-| **AEGIS Ledger (L3)** | **0.005ms** | **1% flat** (Cero fijos) | **Diseñado para correr a la velocidad de la memoria RAM.** | 
+| **Infrastructure** | **Latency per Tx** | **The Real Bottleneck** | **Verdict for AI Agents** |
+| :--- | :--- | :--- | :--- |
+| **Stripe (Fiat)** | ~600ms | **$0.30 fixed** + 2.9% | Eats 100% of your margin on sub-dollar transactions. Unviable for M2M. |
+| **L2 Crypto (Base/Arb)** | 2.0s - 12.0s | Volatile Gas + Consensus | Breaks the Agent's cognitive loop (hot-path) waiting for block confirmation. |
+| **AEGIS Ledger (L3)** | **0.005ms** | **1% flat** (Zero fixed fees) | **Designed to run at the speed of RAM.** |
 
-### 🛡️ AEGIS Ledger: Arquitectura Sin Concesiones
+### 🛡️ AEGIS Ledger: Uncompromising Architecture
 
-AEGIS no es un banco, es una cámara de compensación interna (L3).
-Eliminamos la fricción criptográfica: fondeas tu cuenta central con USD, y tus IAs gastan esos créditos internamente a la velocidad de la luz mediante API.
+AEGIS is not a bank; it is an internal clearinghouse (L3).
+We eliminated cryptographic friction: you fund your master account with USD, and your AIs spend those credits internally at the speed of light via API.
 
-* **Concurrencia Extrema:** Motor basado en SQLite configurado en modo WAL (Write-Ahead Logging) para commits atómicos sin bloqueos.
-* **Seguridad Criptográfica:** API Keys hasheadas con SHA-256. Cero vulnerabilidades de texto plano en la base de datos.
-* **Integración Drop-in:** Si sabes hacer un `requests.post`, sabes usar AEGIS.
+* **Extreme Concurrency:** SQLite-based engine configured in WAL (Write-Ahead Logging) mode for lock-free atomic commits.
+* **Cryptographic Security:** API Keys are SHA-256 hashed. Zero plain-text vulnerabilities in the database.
+* **Drop-in Integration:** If you know how to send a `requests.post`, you know how to use AEGIS.
 
-```python
-# Así se liquida un micropago M2M de $0.05 en AEGIS
+` ` `python
+# How a $0.05 M2M micro-payment settles on AEGIS
 import requests
 
 payload = {
@@ -44,8 +44,27 @@ payload = {
     "amount": 0.05, 
     "service_name": "Web_Scraping_Execution"
 }
-headers = {"Authorization": "Bearer aegis_live_tu_api_key_secreta..."}
+headers = {"Authorization": "Bearer aegis_live_your_secret_api_key..."}
 
-# Liquidación atómica en 0.005 milisegundos
+# Atomic settlement in 0.005 milliseconds
 response = requests.post("https://aegis-api.com/liquidate", json=payload, headers=headers)
 print(response.json()) # >> {'status': 'settled', 'latency_ms': '0.005ms'}
+` ` `
+
+### 🚀 Production Access (Stress-Test)
+
+Don't just take my word for it; stress-test my server's latency.
+
+I am currently manually onboarding TIER-1 developers who are building MCP servers or AI swarms and need to monetize per call without losing money on fixed fees.
+
+If you are building at the frontier of AI and traditional infrastructure is holding you back, reach out directly:
+
+> 🐦 **DM on X (Twitter):** [@LortuArte731130](https://x.com/LortuArte731130)
+> ✉️ **Direct Email:** [lortuarte765@gmail.com](mailto:lortuarte765@gmail.com)
+
+*I will provision a dedicated node with a **pre-funded API Key ($10.00 USD)** for your test environment. Plug it into your swarm and verify the 0.005ms latency yourself.*
+
+---
+<div align="center">
+  <sub><i>"In the machine economy, if your settlement layer doesn't run at CPU speed, your product is already obsolete."</i></sub>
+</div>
