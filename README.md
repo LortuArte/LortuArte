@@ -2,9 +2,9 @@
 
 <div align="center">
   <i>High-Frequency Machine-to-Machine (M2M) Infrastructure</i><br><br>
-  <img src="[https://img.shields.io/badge/SYSTEM-PRODUCTION-success?style=for-the-badge](https://img.shields.io/badge/SYSTEM-PRODUCTION-success?style=for-the-badge)" alt="System Production" />
-  <img src="[https://img.shields.io/badge/HFT_LATENCY-0.005MS-blue?style=for-the-badge](https://img.shields.io/badge/HFT_LATENCY-0.005MS-blue?style=for-the-badge)" alt="Latency 0.005ms" />
-  <img src="[https://img.shields.io/badge/ENGINE-PYTHON_%7C_ACID-orange?style=for-the-badge](https://img.shields.io/badge/ENGINE-PYTHON_%7C_ACID-orange?style=for-the-badge)" alt="Engine Python ACID" />
+  <img src="https://img.shields.io/badge/SYSTEM-PRODUCTION-success?style=for-the-badge" alt="System Production" />
+  <img src="https://img.shields.io/badge/HFT_LATENCY-0.005MS-blue?style=for-the-badge" alt="Latency 0.005ms" />
+  <img src="https://img.shields.io/badge/ENGINE-PYTHON_%7C_ACID-orange?style=for-the-badge" alt="Engine Python ACID" />
 </div>
 
 ---
@@ -16,6 +16,8 @@ Let's be honest: while Agent Identity (KYA) and On-chain Settlement (x402) are b
 That is why I built **AEGIS**: an L3 strictly-ordered Policy Gate designed purely for speed and double-spend prevention.
 
 ### 🔴 The Harsh Reality of the Industry
+
+https://github.com/user-attachments/assets/4f0b4815-02f8-454e-8547-51769ee85f69
 
 If your AI agent fires 1,000 concurrent API calls at $0.05 each, current infrastructure sets you up for failure:
 
@@ -32,8 +34,3 @@ AEGIS sits exactly between the Agent and the Settlement gateway.
 * ⚡ **Extreme Concurrency:** High-Frequency L3 Mempools for sub-millisecond budget resolution and state locking.
 * 🔐 **Cryptographic Security:** Ed25519 Deterministic receipts ready for public verifiability. Zero plain-text vulnerabilities.
 * 🧩 **Drop-in Integration:** Designed as a Pre-Tool Hook for any autonomous agent workflow.
-
----
-*AEGIS is the missing safety layer between autonomous machines and financial ruin.*
-
-*Let's build securely: lortuarte765@gmail.com*
