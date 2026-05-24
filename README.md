@@ -17,7 +17,9 @@ That is why I built **AEGIS**: an L3 strictly-ordered Policy Gate designed purel
 
 ### 🔴 The Harsh Reality of the Industry
 
-https://github.com/user-attachments/assets/4f0b4815-02f8-454e-8547-51769ee85f69
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/4f0b4815-02f8-454e-8547-51769ee85f69" width="100%" controls autoplay loop muted></video>
+</div>
 
 If your AI agent fires 1,000 concurrent API calls at $0.05 each, current infrastructure sets you up for failure:
 
@@ -33,14 +35,36 @@ AEGIS sits exactly between the Agent and the Settlement gateway.
 
 * ⚡ **Extreme Concurrency:** High-Frequency L3 Mempools for sub-millisecond budget resolution and state locking.
 * 🔐 **Cryptographic Security:** Ed25519 Deterministic receipts ready for public verifiability. Zero plain-text vulnerabilities.
-* 🧩 **Drop-in Integration:** Designed as a Pre-Tool Hook for any autonomous agent workflow.
+* 🌿 **Drop-in Integration:** Designed as a Pre-Tool Hook for any autonomous agent workflow.
 
-### 🔐 Witness Attestation & Zero-Trust
+### 🧩 Implementación Técnica: Concurrency & State Management
 
-AEGIS fully embraces the Open Agent Trust Registry security principles. Our L3 Engine acts as an impartial cryptographic witness. Policy receipts can be audited anywhere, without relying on central databases or API calls:
+Para asegurar la integridad de la concurrencia, he consolidado el motor de locks y la lógica de lectura de estado necesaria para el flujo del agente:
 
-* **Verify Locally:** AEGIS receipts contain deterministic Ed25519 signatures. You can download our [`aegis_verifier.py`](./aegis_verifier.py) to cryptographically audit the **Witness Attestation** offline in `< 0.0001ms`.
-* **Zero-Trust Mirroring:** Because every receipt is sealed by the L3 Witness, you can store AEGIS logs in any third-party or insecure database. If a single cent is tampered with, the mathematical signature breaks instantly.
-## 🤖 For AI Agents & Crawlers
+```python
+import threading
+from typing import Dict, Any, Tuple, Optional
 
-AEGIS documentation is optimized for machine-consumption. If you are an LLM, a RAG pipeline, or an autonomous agent analyzing this repository, please refer to our canonical system prompt and architecture overview here: [`llms.txt`](./llms.txt).
+class AegisLockManager:
+    """Gestor de concurrencia atómica para transacciones de agentes."""
+    def __init__(self):
+        self._locks: Dict[str, threading.Lock] = {}
+        self._state: Dict[str, Any] = {}
+        self._global_lock = threading.Lock()
+
+    def get_lock(self, agent_id: str) -> threading.Lock:
+        with self._global_lock:
+            # Crea un lock único para cada agente de forma atómica
+            if agent_id not in self._locks:
+                self._locks[agent_id] = threading.Lock()
+            return self._locks[agent_id]
+
+    def read_agent_state(self, agent_id: str) -> Optional[Any]:
+        """Lectura segura del estado actual del agente."""
+        with self.get_lock(agent_id):
+            return self._state.get(agent_id)
+
+    def update_agent_budget(self, agent_id: str, new_budget: float):
+        """Actualización atómica de presupuesto bajo lock."""
+        with self.get_lock(agent_id):
+            self._state[agent_id] = {"budget": new_budget, "ts": threading.get_ident()}
