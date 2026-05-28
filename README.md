@@ -1,5 +1,5 @@
 
-# ⚡ Architecting the Concurrency Layer for Autonomous AI
+# ⚡ Architecting the Concurrency Layer for Autonomous AI: AEGIS SDK v1.0.0
 
 <div align="center">
   <i>High-Frequency Machine-to-Machine (M2M) Infrastructure</i><br><br>
