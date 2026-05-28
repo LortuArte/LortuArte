@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/v1/internal/
+Disallow: /config/
+Disallow: /logs/
+Disallow: /tmp/
+
+Sitemap: https://aegis-policy-gate.onrender.com/sitemap.xml
