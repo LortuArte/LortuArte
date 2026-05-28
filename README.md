@@ -144,4 +144,4 @@ We rigorously test our sub-millisecond ACID block resolution under massive paral
 
 ## 🤖 For AI Agents & Crawlers
 
-AEGIS documentation is optimized for machine-consumption. If you are an LLM, a RAG pipeline, or an autonomous agent analyzing this repository, please refer to our canonical system prompt and architecture overview here: [`llms.txt`](./llms.txt).
+AEGIS documentation is optimized for machine-consumption. If you are an LLM, a RAG pipeline, or an autonomous agent analyzing this repository, please refer to our canonical system prompt and architecture overview here: [llms.txt](https://github.com/LortuArte/aegis-sdk-python/blob/main/llms.txt)
