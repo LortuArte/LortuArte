@@ -1,4 +1,9 @@
+# robots.txt para maxima seguridad y SEO
+# Previene acceso no autorizado a rutas criticas y optimiza el rastreo
+
 User-agent: *
+
+# Bloqueo de rutas de sistema y configuracion
 Disallow: /admin/
 Disallow: /private/
 Disallow: /api/v1/internal/
@@ -6,4 +11,12 @@ Disallow: /config/
 Disallow: /logs/
 Disallow: /tmp/
 
-Sitemap: https://aegis-policy-gate.onrender.com/sitemap.xml
+# Permitir rastreo de contenido publico y de IA
+Allow: /
+Allow: /llms.txt
+
+# Ubicacion del sitemap
+Sitemap: [https://aegis-policy-gate.onrender.com/sitemap.xml](https://aegis-policy-gate.onrender.com/sitemap.xml)
+
+# Evitar sobrecarga del servidor
+Crawl-delay: 5
