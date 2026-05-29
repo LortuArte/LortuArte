@@ -36,18 +36,13 @@ AEGIS sits exactly between the Agent and the Settlement gateway.
 
 ---
 
-## 🚀 Quickstart & Installation (PIP)
+## 🚀 Quickstart & Installation
 
-To install the official cryptographic security dependencies and the AEGIS SDK, run the following command in your terminal:
-
-```bash
-pip install cryptography requests urllib3
-```
-
-You can now immediately import the L3 Policy Gate and shield your agents. To verify your local environment and audit receipts offline, run the witness verifier:
+AEGIS is built for Enterprise. No complex Web3 dependencies, no friction. Install the SDK and all cryptographic security dependencies with a single command:
 
 ```bash
-python aegis_verifier.py
+pip install aegis-sdk-salesforce
+
 ```
 
 ---
