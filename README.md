@@ -49,24 +49,24 @@ pip install aegis-sdk-salesforce
 
 ## 🧩 Technical Implementation: Concurrency & State Management
 
-To ensure concurrency integrity and mitigate *Concurrent Signing Drift*, the SDK connects to the L3 Policy Engine applying async validation atomically:
+To ensure concurrency integrity and mitigate *Concurrent Signing Drift*, the SDK provides an in-memory L3 Policy Gate that applies validation atomically:
 
 ```python
- from aegis.aegis_sdk import AegisPolicyGate, AegisLangChainWrapper
+from aegis.aegis_sdk import AegisLocalPolicyGate
 
-# 1. Configure production endpoint
-RENDER_URL = "https://aegis-policy-gate.onrender.com"
+# 1. Initialize L3 Client (Zero-Trust Local Audit)
+aegis_gate = AegisLocalPolicyGate()
 
-# 2. Initialize L3 Client
-aegis_client = AegisPolicyGate(endpoint_url=RENDER_URL)
-security_gate = AegisLangChainWrapper(aegis_client=aegis_client)
-
-# 3. Intercept budget spending before tool execution
-is_allowed = security_gate.evaluate_tool_execution(
-    agent_id="did:key:langchain_test_agent",
-    tool_name="qvac_inference",
-    requested_amount="0.05"
+# 2. Intercept budget spending before tool execution
+decision_receipt = aegis_gate.evaluar_gasto(
+    agent_did="did:key:langchain_test_agent",
+    operation="update_opportunity",
+    tool_call_id="tx_1001",
+    amount_usd=0.05
 )
+
+# 3. Cryptographic Ed25519 receipt generated instantly
+print(decision_receipt)
 ```
 
 ---
