@@ -52,7 +52,7 @@ pip install aegis-sdk-salesforce
 To ensure concurrency integrity and mitigate *Concurrent Signing Drift*, the SDK connects to the L3 Policy Engine applying async validation atomically:
 
 ```python
-from aegis_sdk import AegisPolicyGate, AegisLangChainWrapper
+ from aegis.aegis_sdk import AegisPolicyGate, AegisLangChainWrapper
 
 # 1. Configure production endpoint
 RENDER_URL = "https://aegis-policy-gate.onrender.com"
@@ -102,39 +102,39 @@ if __name__ == "__main__":
 We rigorously test our sub-millisecond ACID block resolution under massive parallel load to guarantee double-spend prevention. Below is the internal benchmark output of AEGIS mitigating a concurrent asynchronous attack:
 
 ```text
-🛡️  SUITE DE AUTO-CERTIFICACIÓN FINANCIERA Y CONCURRENCIA L3 - AEGIS V2.1.0
-================================================================================
+🛡️ L3 CONCURRENCY & FINANCIAL SELF-CERTIFICATION SUITE - AEGIS V2.1.0
+=============================================================================
 
-🧪 [PASO 1]: Inicializando el guardián de políticas de AEGIS...
-   [✓] Motor activo. Clave Pública:**************
+ 🚀 [STEP 1]: Initializing AEGIS policy guardian...
+    [✓] Engine active. Public Key:********************
 
-🧪 [PASO 2]: Ejecutando transacción legítima de $0.50...
-   [✓] Decisión: ALLOW
-   [✓] Hash de Auditoría (action_ref): 15***************
-   [✓] Firma Ed25519: ed25519:8*******************
+ 🚀 [STEP 2]: Executing legitimate $0.50 transaction...
+    [✓] Decision: ALLOW
+    [✓] Audit Hash (action_ref): 15********************
+    [✓] Ed25519 Signature: ed25519:8*******************
 
-🧪 [PASO 3]: Validando la autenticidad del recibo de forma local (Zero-Trust)...
-   ✅ Firma verificada con éxito. Cero alteración detectada.
+ 🚀 [STEP 3]: Validating receipt authenticity locally (Zero-Trust)...
+    ✅ Signature successfully verified. Zero alteration detected.
 
-🧪 [PASO 4]: Simulando ataque MITM (Hacker altera un decimal de $0.50 a $0.51)...
-   ✅ ALERTA DE SEGURIDAD OPERANDO: Intento de fraude bloqueado de forma matemática.
-      La firma criptográfica no se corresponde con los datos modificados.
+ 🚀 [STEP 4]: Simulating MITM attack (Hacker alters decimal from $0.50 to $0.51)...
+    🚨 SECURITY ALERT TRIGGERED: Fraud attempt blocked mathematically.
+       Cryptographic signature does not match modified data.
 
-🧪 [PASO 5]: Iniciando test de estrés con 1,000 transacciones concurrentes en paralelo...
-   [✓] Procesadas con éxito 1,000 transacciones asíncronas en CPU local.
-   [✓] Aprobadas (ALLOW): 495 (Límite presupuestario exacto)
-   [✓] Denegadas (DENY):  505 (Evitado sobregiro con bloqueos ACID)
-   ⚡ Latencia Media de Veredicto Interno: 0.0054 ms
+ 🚀 [STEP 5]: Initiating stress test with 1,000 concurrent parallel transactions...
+    [✓] Successfully processed 1,000 asynchronous transactions on local CPU.
+    [✓] Approved (ALLOW): 495 (Exact budget limit reached)
+    [✓] Denied (DENY): 505 (Overdraft prevented via ACID locks)
+    ⚡ Internal Verdict Mean Latency: 0.0054 ms
 
-================================================================================
-🏁 INFORME DE INTEGRIDAD Y CONSISTENCIA
-================================================================================
-   -> Saldo Final Esperado: $0.00
-   -> Saldo Final Real:     $0.00
+=============================================================================
+ 📊 INTEGRITY & CONSISTENCY REPORT
+=============================================================================
+ -> Expected Final Balance: $0.00
+ -> Actual Final Balance:   $0.00
 
-✅ VEREDICTO: ¡SISTEMA CRIPTOGRÁFICO Y CONCURRENTE CERTIFICADO AL 1000%!
-   -> Integridad de Memoria: Bloqueos ACID perfectos inmunes al Precision Drift.
-   -> Resistencia de Auditoría: Atribución inalterable y defensiva probada contra MITM.
+ ✅ VERDICT: CRYPTOGRAPHIC & CONCURRENT SYSTEM 1000% CERTIFIED!
+ -> Memory Integrity: Perfect ACID locks immune to Precision Drift.
+ -> Audit Resistance: Unalterable attribution, proven defensive against MITM.
 ```
 
 ## 🤖 For AI Agents & Crawlers
