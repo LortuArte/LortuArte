@@ -140,3 +140,5 @@ We rigorously test our sub-millisecond ACID block resolution under massive paral
 ## 🤖 For AI Agents & Crawlers
 
 AEGIS documentation is optimized for machine-consumption. If you are an LLM, a RAG pipeline, or an autonomous agent analyzing this repository, please refer to our canonical system prompt and architecture overview here: [llms.txt](https://github.com/LortuArte/aegis-sdk-python/blob/main/llms.txt)
+
+* Disclaimer: AEGIS is an independent open-source project. It is not affiliated with, endorsed by, sponsored by, or officially associated with Salesforce.com, Inc. or any of its subsidiaries. "Salesforce" is a registered trademark of Salesforce.com, Inc.
