@@ -8,6 +8,13 @@
   <img src="https://img.shields.io/badge/ENGINE-PYTHON_%7C_ACID-orange?style=for-the-badge" alt="Engine Python ACID" />
 </div>
 
+> 🚨 **Stop Agentic Double-Spends:** Traditional cloud gateways are too slow to stop async loops. 
+
+[![AEGIS Demo](https://img.youtube.com/vi/S0uRysVgkf4/maxresdefault.jpg)](https://www.youtube.com/watch?v=S0uRysVgkf4)
+
+👆 *Click the image above to watch the 50s demo of AEGIS blocking a rogue agent in 0.005ms.*
+
+
 ---
 
 Hi, I'm **LORTU**. I build financial security infrastructure for the AgentEconomy.
