@@ -45,7 +45,7 @@ Cloud-based rate limiters and API gateways suffer from network latency (50ms - 2
 
 AEGIS is built for Enterprise. No Redis required for local nodes. Install the SDK with a single command:
 
-`pip install aegis-core`
+`pip install aegis-core-sdk`
 
 ### 💻 Proof of Concept: The 3-Line Integration
 
