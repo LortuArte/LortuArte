@@ -63,24 +63,34 @@ Implement deterministic execution constraints in your local environment before a
 
 
 
-```from aegis_core import AegisGate
+```from aegis import AegisCryptoEngine
 
-# 1. Initialize the L3 Runtime Gate
-gate = AegisGate(
-    policy="strict_financial",
-    max_spend_usd=50.00
-)
+# 1. Initialize the L3 Runtime Guardrail in-memory
+aegis = AegisCryptoEngine()
 
 # 2. Wrap your agent's tool execution
-@gate.protect(action="stripe_payment")
-def execute_payment(amount):
-    # AEGIS intercepts, verifies state, and prevents double-spends BEFORE execution
-    return process_transaction(amount)
+try:
+    # Evaluates ACID policy locally in < 0.005ms
+    is_safe = aegis.evaluate_tool_execution(
+        agent_id="Sales_Agent_01",
+        tool_name="Stripe_Charge",
+        requested_amount=50.00
+    )
+    
+    if is_safe:
+        print("✅ L3 Lock acquired. Safe to call external API.")
+        # execute_stripe_api()
+        
+except Exception as e:
+    print(f"🛑 AEGIS INTERCEPT: {e}")
+
 ```
 
 ---
 
 🧠 **Core Architecture**
+
+AEGIS operates at Layer 3 (Runtime), providing strict governance that sits inside your agent's memory space, eliminating network latency.
 
   * AEGIS operates at Layer 3 (Runtime), providing strict governance that sits inside your agent's memory space, eliminating network latency.
 
