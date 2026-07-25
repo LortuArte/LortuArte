@@ -3,6 +3,18 @@
 [![PyPI Version](https://img.shields.io/pypi/v/aegis-core-lortuarte-sdk.svg)](https://pypi.org/project/aegis-core-lortuarte-sdk/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+
+<div align="center">
+
+[![AEGIS Demo](https://img.youtube.com/vi/ivgZz0aMKhQ/maxresdefault.jpg)](https://youtu.be/ivgZz0aMKhQ)
+
+*(Click above to watch AEGIS block a 1,000-thread concurrent loop attack in <1ms)*
+
+</div>
+
+
+
+
 **The Sub-millisecond Tool-Execution Firewall for Enterprise AI Agents.**
 Cloud HTTP Gateways (like LangSmith) protect your LLM tokens. AEGIS protects your Stripe account and Crypto Wallets from asynchronous Agent Double-Spending.
 
