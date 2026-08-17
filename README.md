@@ -1,49 +1,83 @@
-# 🛡️ AEGIS Core | Enterprise AI Agent Firewall
+# 🛡️ AEGIS Core | Authorization Boundary for AI Agents
 
 [![PyPI Version](https://img.shields.io/pypi/v/aegis-core-lortuarte-sdk.svg)](https://pypi.org/project/aegis-core-lortuarte-sdk/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-<div align="center">
-
-[![AEGIS Demo](https://img.youtube.com/vi/ivgZz0aMKhQ/maxresdefault.jpg)](https://youtu.be/ivgZz0aMKhQ)
-
-*(Click above to watch AEGIS block a 1,000-thread concurrent loop attack in <1ms)*
-
-</div>
 
 
+**Local pre-execution authorization for financially consequential AI-agent tool calls.**
 
+AEGIS Core sits between an agent's reasoning/runtime layer and high-risk tools such as payments, trades, paid APIs, and other external side effects.
 
-**The Sub-millisecond Tool-Execution Firewall for Enterprise AI Agents.**
-Cloud HTTP Gateways (like LangSmith) protect your LLM tokens. AEGIS protects your Stripe account and Crypto Wallets from asynchronous Agent Double-Spending.
+It enforces budget and idempotency decisions **before execution is allowed**, including under concurrent retries.
 
 ---
 
-## 🚨 The 1,000-Thread Double Spend Vulnerability
+## 🚨 The 1,000-Request Contention Risk
 
-When an autonomous agent enters a hyper-cognitive loop, it can fire hundreds of concurrent tool calls (e.g., Stripe API charges or Web3 transactions). 
+An autonomous agent does not need to be malicious to create financial damage.
 
-Cloud-based guardrails suffer from network latency (~50ms - 150ms). By the time the cloud gateway registers the budget depletion, the in-flight transactions have already drained your accounts.
+Retries, asynchronous execution, runaway loops, or multiple workers can cause several individually valid tool calls to compete for the same remaining budget or repeat the same logical action.
 
-## ⚡ Why AEGIS? (Zero-Latency Policy Enforcement)
+For financially consequential tools, the critical question is:
 
-AEGIS is a horizontal L3 Policy Gate designed purely for speed and state locking. It sits exactly between your Agent's reasoning engine and your execution tools.
+> **What happens if an agent retries the same expensive action concurrently before the previous execution has fully resolved?**
 
-* **Sub-Millisecond Concurrency:** High-Frequency Local IPC Memory Locks (`< 1ms`) budget resolution.
-* **Infrastructure Agnostic:** Works with LangChain, AutoGen, CrewAI, or raw Python scripts.
-* **Zero Dependencies:** No Redis, no Kafka. Pure Python in-memory atomic locks.
+AEGIS Core places a local authorization boundary before that external side effect.
 
 ---
 
-## 📊 Benchmark Proof (Concurrent Drift Attack)
+## ⚡ Why AEGIS? (Local Pre-Execution Policy Enforcement)
 
-In a live stress test simulating a rogue agent attempting 1,000 concurrent Stripe tool calls:
+AEGIS Core is a local Python policy gate designed to make authorization decisions before financially consequential tool execution.
 
-* ✅ **1000** concurrent requests intercepted
-* ✅ **0** double spends (Zero Financial Drift)
-* ✅ **$50,000** overspend prevented
-* ✅ **<0.001ms** lock latency per request
+It focuses on deterministic local state control rather than replacing the agent framework itself.
+
+* **Budget Enforcement:** Block execution when the remaining authorized budget is insufficient.
+* **Idempotency Control:** Prevent duplicate logical tool executions from being authorized twice.
+* **Concurrency Control:** Serialize competing local authorization decisions around shared economic state.
+* **Framework Agnostic:** Can sit in front of LangChain, AutoGen, CrewAI, MCP integrations, or raw Python tools.
+* **Local Enforcement:** The current implementation does not require Redis, Kafka, or a remote policy service for its local mode.
+* **Fail-Closed Security:** Invalid authorization/signature conditions are rejected rather than silently allowed.
+
+> **Current scope:** AEGIS Core's tested atomicity guarantees are local and single-process. Distributed multi-process or multi-node coordination is not claimed.
+
+---
+
+## 📊 Benchmark Proof (Concurrent Contention Test)
+
+In a reproducible local stress test, **1,000 authorization requests** were submitted through **100 workers** while competing for a budget sufficient for only one operation:
+
+* ✅ **1,000** authorization requests
+* ✅ **100** workers
+* ✅ **1** request allowed
+* ✅ **999** requests denied
+* ✅ **0** overspend
+* ✅ Final balance remained consistent
+* ✅ Financial-loss regression matrix: **12/12 PASS**
+
+AEGIS also includes reproducible tests for:
+
+* ✅ Idempotency conflicts
+* ✅ Tool-call cryptographic binding
+* ✅ Signature failure rollback
+* ✅ Concurrent limited-budget settlement
+* ✅ Atomic rollback
+* ✅ Exact replay handling
+
+### Measured Local Latency
+
+Current local benchmarks include:
+
+* **Decision primitive:** ~0.5 µs median
+* **Idempotency cache hit:** ~2.4 µs median
+* **Full signed authorization:** ~46.7 µs median
+* **SQLite in-memory L3 settlement:** ~147.7 µs median
+
+These measurements describe the tested **local execution paths only**.
+
+They do **not** represent HTTP/network round trips, distributed coordination, Stripe settlement, blockchain confirmation, or other external infrastructure latency.
 
 ---
 
@@ -53,56 +87,108 @@ In a live stress test simulating a rogue agent attempting 1,000 concurrent Strip
 pip install aegis-core-lortuarte-sdk
 ```
 
+Current public release:
+
+```text
+aegis-core-lortuarte-sdk 3.2.0
+```
+
 ---
 
-🛠️ Proof of Concept: The 3-Line Integration
-Wrap your high-risk tools (payments, trades, database writes) with the AEGIS gate.
+## 🛠️ Proof of Concept: Pre-Execution Authorization
 
-```from aegis import PolicyGate
+Wrap high-risk tools such as payments, trades, paid API calls, or irreversible writes with the AEGIS gate.
 
-# 1. Initialize local IPC Client
-aegis_gate = PolicyGate(daily_budget_usd=100)
+```python
+from decimal import Decimal
+from aegis import AegisLocalPolicyGate
 
-def execute_agent_payment(agent_id, amount):
-    # 2. Intercept budget spending BEFORE tool execution (<1ms lock)
-    decision = aegis_gate.evaluate_tool_execution(
-        agent_id=agent_id,
+# 1. Initialize the local authorization gate
+aegis_gate = AegisLocalPolicyGate()
+
+# Example: authorize this agent for $100
+aegis_gate.ledger_data["agent-001"] = Decimal("100.00")
+
+
+def execute_agent_payment(agent_id, tool_call_id, amount):
+    # 2. Authorize spending BEFORE the external side effect
+    decision = aegis_gate.evaluar_gasto(
+        agent_did=agent_id,
         operation="stripe_charge",
-        amount=amount
+        tool_call_id=tool_call_id,
+        amount_usd=str(amount),
     )
-    
-    if decision["status"] == "ALLOW":
-        # Safe to execute real API call
-        # stripe.Charge.create(...)
+
+    if decision["policy_decision"] == "allow":
+        # Only now execute the real external action
+        # stripe.PaymentIntent.create(...)
         return "Transaction Authorized"
-    else:
-        # Loop blocked instantly. Budget saved.
-        return f"BLOCKED: Asynchronous Double-Spend Prevented in {decision['latency']}ms"
+
+    return "BLOCKED: Policy denied execution"
 ```
+
+The important boundary is:
+
+```text
+Agent decision
+      ↓
+AEGIS authorization
+      ↓
+ALLOW / DENY
+      ↓
+External tool execution
+```
+
+The financially consequential side effect happens **only after authorization succeeds**.
 
 ---
 
 ## 🧠 The Architecture (vs. LLM Gateways)
 
-| Feature | LangSmith / Portkey (Cloud) | AEGIS Core (Local IPC) |
+| Feature | LLM / Observability Gateways | AEGIS Core |
 | :--- | :--- | :--- |
-| **Primary Target** | Token Spend / Prompt Injection | **Tool Execution / Money Spend** |
-| **Latency** | 50ms - 200ms (HTTP) | **< 1ms (In-Memory)** |
-| **Double-Spend Protection** | Fails under high concurrency | **Atomic deterministic locking** |
+| **Primary Target** | LLM requests, prompts, tokens, tracing | **Financially consequential tool execution** |
+| **Enforcement Point** | Model / API request path | **Immediately before tool execution** |
+| **Budget State** | Platform dependent | **Local policy state** |
+| **Idempotency** | Platform dependent | **Execution-level tool-call control** |
+| **Concurrency** | Platform dependent | **Local atomic authorization boundary** |
+| **Deployment** | Often remote / service based | **Local Python SDK** |
+| **Current Atomicity Scope** | Platform dependent | **Single-process local execution** |
+
+AEGIS is not intended to replace LLM gateways.
+
+It addresses a different boundary:
+
+> **The point where an AI agent is about to turn a decision into an economically consequential action.**
 
 ---
 
-## 🚀 Enterprise Pilot
+## 🎯 Technical Design Partners
 
-Running autonomous agents in production? 
+Running AI agents that can spend money, trigger payments, execute refunds, access paid APIs, perform trades, or create other financially consequential side effects?
 
-Without runtime security, a single race condition can cause overspending, double-spends, and unsafe execution.
+AEGIS Core is currently looking for **technical design partners** willing to test the authorization boundary against real agent workflows.
 
-**AEGIS Enterprise includes:**
+Priority use cases:
 
-* 📊 Policy dashboards
-* 👁️ Real-time observability
-* 🤝 Enterprise SLA support
-* ⚡ Custom infrastructure integrations
+* 💳 Agent payments and refunds
+* 💰 Treasury and credit workflows
+* 🔌 Paid API / MCP tool execution
+* 🔁 Retry storms and concurrent execution
+* 🧾 Duplicate logical actions
+* 🤖 Autonomous agent spending
+* 🔐 Pre-execution authorization
 
-**Book Enterprise Pilot at:** https://aegis-api.com/
+The objective is not to claim distributed production readiness.
+
+The objective is to test AEGIS against real workflows, identify where the current model breaks, fix those boundaries, and retest them.
+
+### Install
+
+```bash
+pip install aegis-core-lortuarte-sdk
+```
+
+### Project
+
+**AEGIS Core:** https://aegis-api.com/
