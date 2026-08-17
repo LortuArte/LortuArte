@@ -87,11 +87,6 @@ They do **not** represent HTTP/network round trips, distributed coordination, St
 pip install aegis-core-lortuarte-sdk
 ```
 
-Current public release:
-
-```text
-aegis-core-lortuarte-sdk 3.2.0
-```
 
 ---
 
