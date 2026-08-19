@@ -114,7 +114,7 @@ def execute_agent_payment(agent_id, tool_call_id, amount):
         amount_usd=str(amount),
     )
 
-    if decision["policy_decision"] == "allow":
+    if decision["execution_permitted"] is True:
         # Only now execute the real external action
         # stripe.PaymentIntent.create(...)
         return "Transaction Authorized"
