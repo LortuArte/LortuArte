@@ -10,7 +10,7 @@
 
 AEGIS Core sits between an agent's reasoning/runtime layer and high-risk tools such as payments, trades, paid APIs, and other external side effects.
 
-It enforces budget and idempotency decisions **before execution is allowed**, including under concurrent retries.
+Within a single process, AEGIS makes budget and idempotency decisions before execution is permitted. In the tested same-ID case, 100 concurrent retries produced 1 execution grant, 99 cached replays, and 1 simulated external execution.
 
 ---
 
