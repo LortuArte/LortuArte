@@ -81,6 +81,34 @@ They do **not** represent HTTP/network round trips, distributed coordination, St
 
 ---
 
+## 🌐 Independent External Evaluation
+
+AEGIS Core 3.4.0 has received a public external source review and benchmark in [kube-coder issue #573](https://github.com/imran31415/kube-coder/issues/573).
+
+Externally reported local measurements:
+
+| Path | Median | p95 | p99 |
+|:---|---:|---:|---:|
+| Process-local signed gate | **0.0582 ms** | **0.1042 ms** | **0.1260 ms** |
+| File-backed settlement, end-to-end | **1.1349 ms** | **3.2434 ms** | **4.6677 ms** |
+
+The evaluator did **not** recommend adopting AEGIS as the dependency for kube-coder Phase 4 because its deployment needs differed from AEGIS 3.4.0's current process-local model. That limitation is part of the public record.
+
+The same evaluation carried six AEGIS design patterns into kube-coder's Phase 4 notes: durable decision receipts, idempotency conflict detection, integer money units, commit ordering, fail-closed behavior, and attenuated policy decisions.
+
+**What this proves:** external source inspection, external benchmark, external fit assessment, and documented design influence.
+
+**What it does not prove:** kube-coder adoption, integration, production validation, distributed atomicity, or endorsement.
+
+Full evidence: [LortuArte/aegis-sdk — External kube-coder evaluation](https://github.com/LortuArte/aegis-sdk/blob/main/EXTERNAL_EVALUATION_KUBE_CODER.md)
+
+Primary sources:
+- [External evaluation and benchmark](https://github.com/imran31415/kube-coder/issues/573#issuecomment-5752986929)
+- [Phase 4 design notes](https://github.com/imran31415/kube-coder/issues/573#issuecomment-5753002672)
+- [Author correction / scope clarification](https://github.com/imran31415/kube-coder/issues/573#issuecomment-5198491584)
+
+---
+
 ## 📦 Quickstart & Installation
 
 ```bash
