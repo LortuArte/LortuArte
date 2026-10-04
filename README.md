@@ -107,6 +107,53 @@ Primary sources:
 - [Phase 4 design notes](https://github.com/imran31415/kube-coder/issues/573#issuecomment-5753002672)
 - [Author correction / scope clarification](https://github.com/imran31415/kube-coder/issues/573#issuecomment-5198491584)
 
+
+---
+
+## 🌍 External Engineering Impact — PayMCP
+
+A retry/disconnect failure mode reported by **Iraitz / LortuArte** was credited in the merged upstream [PayMCP PR #52](https://github.com/PayMCP/paymcp/pull/52), titled **“Return the paid result on retry instead of running the tool twice.”**
+
+The upstream PR documents a paid-tool failure mode where:
+
+```text
+paid tool executes
+        ↓
+client disconnects before receiving the result
+        ↓
+the result is not returned/stored correctly
+        ↓
+client retries
+        ↓
+the underlying tool executes again
+```
+
+For tools with external side effects, this means the action itself can happen twice even though there was only one payment.
+
+PayMCP's merged fix stores the paid tool result on disconnect and serves that stored result on retry instead of automatically re-executing the consequential tool path.
+
+The upstream PR explicitly credits the finding:
+
+> **Reported by Iraitz / LortuArte.**
+
+**Evidence classification:**
+
+- Externally credited engineering finding: **YES**
+- Upstream fix merged: **YES**
+- Independent confirmation that retry ambiguity can cause duplicate consequential execution: **YES**
+- Supports the AEGIS problem statement around stable intent identity and replay handling: **YES**
+- AEGIS dependency used by PayMCP: **NO**
+- AEGIS integration/adoption by PayMCP: **NO**
+- Production validation of AEGIS: **NO**
+- Commercial endorsement of AEGIS: **NO**
+
+This is published as **external engineering impact and problem validation**, not as an AEGIS adoption claim.
+
+Full evidence: [LortuArte/aegis-sdk — PayMCP external engineering impact](https://github.com/LortuArte/aegis-sdk/blob/main/EXTERNAL_ENGINEERING_IMPACT_PAYMCP.md)
+
+Primary source:
+- [PayMCP PR #52 — Return the paid result on retry instead of running the tool twice](https://github.com/PayMCP/paymcp/pull/52)
+
 ---
 
 ## 📦 Quickstart & Installation
